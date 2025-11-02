@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 30px;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .repo-list {
+      list-style: none;
+      padding: 0;
+    }
+    .repo-item {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    .repo-item:last-child {
+      border-bottom: none;
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #eee;
+    }
+    .user-info img {
+      width: 50px;
+      height: 50px;
+      border-radius: 25px;
+      margin-right: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="user-info">
+      <img src="<%= user.photos[0].value %>" alt="Profile">
+      <div>
+        <h2>Welcome, <%= user.username %></h2>
+        <p>GitHub Profile: <a href="<%= user.profileUrl %>" target="_blank"><%= user.username %></a></p>
+      </div>
+    </div>
+
+    <h3>Your Repositories</h3>
+    <ul class="repo-list">
+      <% repos.forEach(function(repo) { %>
+        <li class="repo-item">
+          <h4><a href="<%= repo.html_url %>" target="_blank"><%= repo.name %></a></h4>
+          <p><%= repo.description || 'No description available' %></p>
+          <small>Stars: <%= repo.stargazers_count %> | Forks: <%= repo.forks_count %></small>
+        </li>
+      <% }); %>
+    </ul>
+  </div>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Advanced Form Validation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 30px;
+    }
+    .container {
+      width: 400px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .strength {
+      font-size: 0.9em;
+      margin-bottom: 5px;
+    }
+    .error { color: red; }
+    .success { color: green; }
+    nav a {
+      margin: 10px;
+      cursor: pointer;
+      text-decoration: underline;
+      color: blue;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="app">
+    <nav>
+      <a onclick="navigate('register')">Register</a>
+      <a onclick="navigate('about')">About</a>
+    </nav>
+
+    <div id="view"></div>
+  </div>
+
+  <script>
+    // ==============================
+    // 1️⃣ CLIENT-SIDE ROUTING (SPA-style)
+    // ==============================
+    function navigate(page) {
+      const view = document.getElementById('view');
+      if (page === 'register') {
+        view.innerHTML = registrationFormHTML();
+      } else if (page === 'about') {
+        view.innerHTML = aboutPageHTML();
+      }
+    }
+
+    // Default route
+    document.addEventListener('DOMContentLoaded', () => navigate('register'));
+
+    // ==============================
+    // 2️⃣ HTML TEMPLATES AS FUNCTIONS
+    // ==============================
+    function registrationFormHTML() {
+      return `
+        <h2>User Registration</h2>
+        <form id="userForm" action="/register" method="POST" onsubmit="return validateForm()">
+          <label>Email:</label>
+          <input type="email" id="email" name="email" required>
+
+          <label>Password:</label>
+          <input type="password" id="password" name="password" required onkeyup="checkPasswordStrength()">
+          <div id="strength" class="strength"></div>
+
+          <label>Confirm Password:</label>
+          <input type="password" id="confirmPassword" required>
+
+          <button type="submit">Register</button>
+        </form>
+        <div id="result"></div>
+      `;
+    }
+
+    function aboutPageHTML() {
+      return `
+        <h2>About This Form</h2>
+        <p>This is an example of client-side routing and dynamic DOM manipulation without reloading the page.</p>
+        <p>Try navigating between “Register” and “About”.</p>
+      `;
+    }
+
+    // ==============================
+    // 3️⃣ PASSWORD STRENGTH CHECKER
+    // ==============================
+    function checkPasswordStrength() {
+      const password = document.getElementById('password').value;
+      const strengthDiv = document.getElementById('strength');
+      let strength = 0;
+
+      if (password.length >= 8) strength++;
+      if (/[A-Z]/.test(password)) strength++;
+      if (/[0-9]/.test(password)) strength++;
+      if (/[@$!%*#?&]/.test(password)) strength++;
+
+      let msg = '';
+      switch(strength) {
+        case 0:
+        case 1:
+          msg = 'Weak 🔴';
+          strengthDiv.style.color = 'red';
+          break;
+        case 2:
+          msg = 'Medium 🟡';
+          strengthDiv.style.color = 'orange';
+          break;
+        case 3:
+        case 4:
+          msg = 'Strong 🟢';
+          strengthDiv.style.color = 'green';
+          break;
+      }
+      strengthDiv.innerText = 'Password strength: ' + msg;
+    }
+
+    // ==============================
+    // 4️⃣ ADVANCED FORM VALIDATION
+    // ==============================
+    function validateForm() {
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const confirmPassword = document.getElementById('confirmPassword').value.trim();
+      const result = document.getElementById('result');
+
+      // Email check
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+      if (!email.match(emailPattern)) {
+        result.innerHTML = '<p class="error">Invalid email format.</p>';
+        return false;
+      }
+
+      // Password match check
+      if (password !== confirmPassword) {
+        result.innerHTML = '<p class="error">Passwords do not match.</p>';
+        return false;
+      }
+
+      // Password strength check
+      const strongPass = password.length >= 8 &&
+                         /[A-Z]/.test(password) &&
+                         /[0-9]/.test(password) &&
+                         /[@$!%*#?&]/.test(password);
+      if (!strongPass) {
+        result.innerHTML = '<p class="error">Password must include uppercase, number, and special character.</p>';
+        return false;
+      }
+
+      // Success message (no server yet)
+      result.innerHTML = '<p class="success">✅ Registration successful! (Client-side)</p>';
+      return false; // Prevent page reload
+    }
+  </script>
+</body>
+</html>

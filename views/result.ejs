@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Submission Result</title>
+  <style>
+    body { font-family: Arial; text-align: center; margin-top: 50px; }
+    .card {
+      background-color: #f2f2f2;
+      padding: 20px;
+      display: inline-block;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Thank you, <%= name %>!</h2>
+    <p><strong>Email:</strong> <%= email %></p>
+    <p><strong>Message:</strong> <%= message %></p>
+    <p>✅ Your submission was successfully saved on the server!</p>
+    <a href="/">Go back to form</a>
+  </div>
+</body>
+</html>

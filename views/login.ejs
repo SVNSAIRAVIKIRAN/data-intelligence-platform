@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 30px;
+    }
+    .container {
+      width: 400px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .github-login {
+      display: inline-block;
+      background: #24292e;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 6px;
+      margin-top: 20px;
+    }
+    .github-login:hover {
+      background: #2c3238;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Login with GitHub</h2>
+    <p>Connect your GitHub account to access the dashboard</p>
+    <a href="/auth/github" class="github-login">
+      Login with GitHub
+    </a>
+  </div>
+</body>
+</html>
